@@ -1,6 +1,8 @@
 /* API(s) */
 import Fuse from 'fuse.js'
+import {isTvShow, extractShow} from './utils'
 import opensubtitle from './opensubtitle'
+import addic7ed from './addic7ed'
 
 /**
  * Getsub Search API
@@ -11,8 +13,15 @@ import opensubtitle from './opensubtitle'
  */
 export const search = async (file, lang) => {
   const originName = file.name
-  let subtitles = await opensubtitle(originName, file.size, lang)
 
+  if (isTvShow(originName)) {
+    const info = extractShow(originName)
+    let subtitles = await addic7ed(
+      info.name, info.showIndex[0], info.showIndex[1], lang)
+  }
+
+  return
+  let subtitles = await opensubtitle(originName, file.size, lang)
   /**
    * We use Fuse (https://github.com/krisk/Fuse)
    * to comparing the file name with our list of

@@ -1,4 +1,5 @@
 import webpack from 'webpack'
+import nodeExternals from 'webpack-node-externals'
 
 export default {
   entry: {
@@ -14,6 +15,7 @@ export default {
     modulesDirectories: ['node_modules'],
     extensions: ['', '.js']
   },
+  externals: [nodeExternals()],
   module: {
     loaders: [
       {
